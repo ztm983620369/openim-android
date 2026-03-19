@@ -1,0 +1,119 @@
+class DeferredCommandLineArgumentProvider implements org.gradle.process.CommandLineArgumentProvider, Serializable {
+    @org.gradle.api.tasks.Internal
+    final org.gradle.process.CommandLineArgumentProvider delegate
+
+    DeferredCommandLineArgumentProvider(org.gradle.process.CommandLineArgumentProvider delegate) {
+        this.delegate = delegate
+    }
+
+    @Override
+    Iterable<String> asArguments() {
+        return delegate.asArguments()
+    }
+}
+
+def resolveApiVersionsXml() {
+    def sdkRoot = System.getenv("ANDROID_SDK_ROOT") ?: System.getenv("ANDROID_HOME") ?: "/usr/lib/android-sdk"
+    def candidates = [
+        new File("${sdkRoot}/platforms/android-36/data/api-versions.xml"),
+        new File("${sdkRoot}/platforms/android-33/data/api-versions.xml")
+    ]
+    def existing = candidates.find { it.exists() }
+    if (existing != null) {
+        return existing
+    }
+    throw new GradleException("Unable to locate api-versions.xml under Android SDK: ${sdkRoot}")
+}
+
+def ensureAnnotationProcessorListFile(Project project, Task task) {
+    def matcher = (task.name =~ /^compile(.+)JavaWithJavac$/)
+    if (!matcher.matches()) {
+        return
+    }
+    def variantName = matcher[0][1]
+    def variantDir = variantName[0].toLowerCase() + variantName.substring(1)
+    def outFile = project.file("${project.buildDir}/intermediates/annotation_processor_list/${variantDir}/annotationProcessors.json")
+    if (!outFile.exists()) {
+        outFile.parentFile.mkdirs()
+        outFile.text = "{}"
+    }
+}
+
+gradle.projectsEvaluated {
+    rootProject.subprojects.each { project ->
+        project.tasks.matching { it.name.startsWith("javaPreCompile") }.configureEach {
+            it.enabled = false
+        }
+
+        project.tasks.withType(JavaCompile).configureEach { task ->
+            ensureAnnotationProcessorListFile(project, task)
+        }
+    }
+}
+
+gradle.taskGraph.whenReady {
+    def apiVersionsXml = resolveApiVersionsXml()
+    rootProject.subprojects.each { project ->
+        project.tasks.withType(JavaCompile).configureEach {
+            def providers = options.compilerArgumentProviders.collect { provider ->
+                if (provider.getClass().name == "com.android.build.gradle.tasks.CommandLineArgumentProviderAdapter") {
+                    def emptyClassNames = project.providers.provider { [] }
+                    provider.getClass()
+                        .getConstructor(org.gradle.api.provider.Provider, org.gradle.api.provider.Provider)
+                        .newInstance(emptyClassNames, provider.getArguments())
+                } else if (provider.getClass().name == "com.android.build.gradle.internal.tasks.databinding.DataBindingCompilerArguments") {
+                    def apiVersionsFile = project.layout.file(project.providers.provider { apiVersionsXml })
+                    provider.getClass().getConstructor(
+                        Boolean.TYPE,
+                        provider.getArtifactType().getClass(),
+                        org.gradle.api.provider.Provider,
+                        Integer.TYPE,
+                        org.gradle.api.provider.Provider,
+                        org.gradle.api.provider.Provider,
+                        org.gradle.api.provider.Provider,
+                        org.gradle.api.provider.Provider,
+                        org.gradle.api.provider.Provider,
+                        org.gradle.api.provider.Provider,
+                        org.gradle.api.provider.Provider,
+                        org.gradle.api.provider.Provider,
+                        Boolean.TYPE,
+                        Boolean.TYPE,
+                        Boolean.TYPE,
+                        Boolean.TYPE,
+                        Boolean.TYPE,
+                        Boolean.TYPE,
+                        org.gradle.api.provider.Provider,
+                        org.gradle.api.file.FileCollection,
+                        org.gradle.api.provider.Provider
+                    ).newInstance(
+                        provider.getIncremental(),
+                        provider.getArtifactType(),
+                        provider.getPackageName(),
+                        provider.getMinApi(),
+                        apiVersionsFile,
+                        provider.getDependencyArtifactsDir(),
+                        provider.getLayoutInfoDir(),
+                        provider.getClassLogDir(),
+                        provider.getBaseFeatureInfoDir(),
+                        provider.getFeatureInfoDir(),
+                        provider.getAarOutDir(),
+                        provider.getExportClassListOutFile(),
+                        provider.getEnableDebugLogs(),
+                        provider.getPrintEncodedErrorLogs(),
+                        provider.isTestVariant(),
+                        provider.isEnabledForTests(),
+                        provider.isEnableV2(),
+                        provider.isNonTransitiveR(),
+                        provider.getMergedDependenciesRFile(),
+                        provider.getDependenciesLocalRFiles(),
+                        provider.getLocalRFile()
+                    )
+                } else {
+                    provider
+                }
+            }
+            options.compilerArgumentProviders.clear()
+            options.compilerArgumentProviders.addAll(providers)
+        }
+    }
+}

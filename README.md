@@ -7,7 +7,7 @@
 # OpenIM Android 💬💻
 
 <p>
-  <a href="https://docs.openim.io/">OpenIM Docs</a>
+  <a href="https://docs.openim.io/">OpenIM 文档</a>
   •
   <a href="https://github.com/openimsdk/open-im-server">OpenIM Server</a>
   •
@@ -16,186 +16,187 @@
   <a href="https://github.com/openimsdk/openim-sdk-core">openim-sdk-core</a>
 </p>
 
-OpenIM provides an open-source Instant Messaging (IM) SDK for developers, serving as an alternative solution to cloud services like Twilio and Sendbird. With OpenIM, developers can build secure and reliable IM applications similar to WeChat.
+OpenIM 为开发者提供开源即时通讯 (IM) SDK，作为 Twilio 和 Sendbird 等云服务的替代解决方案。借助 OpenIM，开发者可以构建类似微信的安全可靠的 IM 应用程序。
 
-This repository is based on the open source version of OpenIM SDK. You can use this Demo as a reference implementation of OpenIM SDK. `@openim/android-client-sdk` and `@openim/core-sdk` are referenced to create native Android applications.
+本仓库基于 OpenIM SDK 的开源版本。您可以将此Demo用作 OpenIM SDK 的参考实现。引用了 `@openim/android-client-sdk` 和 `@openim/core-sdk`来创建原生 Android 应用程序。
 
 <p align="center">
-   <img src="./docs/images/preview1.png" alt="Preview" width="40%"/>
+   <img src="./docs/images/preview1.png" alt="预览" width="40%"/>
    <span style="display: inline-block; width: 16px;"></span>
-   <img src="./docs/images/preview2.png" alt="Preview" width="40%"/>
+   <img src="./docs/images/preview2.png" alt="预览" width="40%"/>
 </p>
-## License  📄:
 
-This repository adopts the GNU Affero General Public License v3 (AGPL-3.0) with additional terms. **Commercial use is not permitted.** For more details, please refer to [here](./LICENSE).
+## 授权许可 📄
 
-## Development Environment
+仓库采用 GNU Affero 通用公共许可证第 3 版 (AGPL-3.0) 进行许可，并受以下附加条款的约束。 **不允许用于商业用途**。详情请参阅[此处](./LICENSE).
 
-Before you start developing, please ensure that your system has the following software installed:
+## 开发环境
 
-- **Operating System**:  Windows 11 22H2
+在开始开发之前，请确保您的系统已安装以下软件：
+
+- **操作系统**: Windows 11 22H2
 - **Android Studio**: Android Studio Koala | 2024.1.1
 - **Gradle**: 7.5.1
 - **AGP**: 7.4.2
 - **Java Runtime**: 17.0.10
 
-You also need to have the latest version of the [OpenIM Server deployed](https://docs.openim.io/guides/gettingStarted/dockerCompose). After that, you can compile this project and connect it to your own server for testing.
+同时你需要确保已经部署了最新版本的 [OpenIM Server](https://docs.openim.io/guides/gettingStarted/dockerCompose)。 之后，你可以编译项目并连接自己的服务端用于运行及测试。
 
-## Runtime Environment
+## 运行环境
 
-This application supports the following browsers and operating system versions:
+该Demo已通过以下环境的运行测试:
 
-| OS          | Version              | Status |
+| 系统        | 版本                  | 状态   |
 | ----------- | -------------------- | ------ |
 | **Android** | 7.0-14.0             | ✅     |
 
-### Note
+### 说明
 
-- **Gradle&AGP**: We recommend that you keep the version consistent with the version in the above instructions. If you need to upgrade, you need to adapt it yourself. 
+- **Gradle&AGP**: 我们建议版本与上述说明中的版本保持一致，如果需要升级则需要自行适配。
 
-## Quick Start
+## 快速开始
 
-Follow these steps to set up your local development environment:
+根据下面的步骤来设置并运行此项目:
 
-1. Clone the repository
+1. 拉取本仓库
 
    ```bash
    git clone https://github.com/openimsdk/open-im-android-demo.git
    cd open-im-android-demo
    ```
 
-2. Open and Sync the dependencies
-   - Use Android Studio to open the Demo folder in the project root directory as the App directory of the Android project 
-   
-      > Please note that you should open the Demo folder instead of directly opening the project root directory. We recommend that you first read the [official doc](https://developer.android.com/studio/projects) to understand the composition of the Android project and the functions of different files in the project. 
+2. 打开并拉取依赖
+   - 用Android Studio打开项目根目录的Demo文件夹作为Android项目的App目录
 
-3. Modify the configuration
+      > 请注意打开的是Demo文件夹，而不是直接打开项目根目录。 我们建议你先通过 [官方文档](https://developer.android.com/studio/projects) 来了解Android项目的构成及项目中不同文件的作用。
 
-   - In the `Constants.java` file:
+3. 修改配置
 
-     > After deployed [OpenIM Server](https://docs.openim.io/guides/gettingStarted/dockerCompose), you need to modified [this file](./OUIKit/OUICore/src/main/java/io/openim/android/ouicore/utils/Constants.java) to ensure it works properly.
+   - 修改 `Constants.java` 类:
+
+     > 部署 [OpenIM Server](https://docs.openim.io/guides/gettingStarted/dockerCompose) 后, 你需要修改 [该文件](./OUIKit/OUICore/src/main/java/io/openim/android/ouicore/utils/Constants.java) 来确保项目的正确运行。
 
      ```java
      public static final String DEFAULT_HOST = "your-server-ip or your-domain"
      ```
 
-4. If you changed server's port, you need to modify the following code. If not, keep it for default.
+4. 如果你在Server部署中修改了端口设置, 你需要修改如下设置。 如果没有修改, 则保持默认即可。
    ```java
    private static final String APP_AUTH = "http://" + DEFAULT_HOST + ":10008/";
    private static final String IM_API = "http://" + DEFAULT_HOST + ":10002";
    private static final String IM_WS = "ws://" + DEFAULT_HOST + ":10001";
    ```
 
-5. Start developing and testing! 🎉
+5. 之后便可以运行Demo并针对性的进行测试了 🎉
 
-## Audio/Video Calls
+## 音视频通话
 
-The open-source version supports one-to-one audio and video calls. You need to first deploy and configure the [server](https://github.com/openimsdk/chat/blob/main/HOW_TO_SETUP_LIVEKIT_SERVER.md). For multi-party audio/video calls or video conferencing, please contact us at [contact@openim.io](mailto:contact@openim.io).
+开源版支持一对一音视频通话，并且需要先部署并配置 [音视频服务端](https://github.com/openimsdk/chat/blob/main/HOW_TO_SETUP_LIVEKIT_SERVER.md)。多人音视频通话、视频会议请联系邮箱 [contact@openim.io](mailto:contact@openim.io)。
 
 ## Build 🚀
 
-> This project allows separate builds for the native android application.
+> 该项目允许构建Android应用程序。
 
-1. Run assemble to build a test apk
+1. 执行 assemble 来构建Demo程序
 
 ```bash
 gradlew assemble
 ```
 
-1. The apk will be located in the `build/output` directory.
+2. 生成的程序将位于 `build/output` 目录下。
 
-## Features
+## 功能列表
 
-### Description
+### 说明
 
-| Feature Module             | Feature                                                                          | Status |
-| -------------------------- | -------------------------------------------------------------------------------- | ------ |
-| **Account Features**       | Phone number registration \ Email registration \ Verification code login         | ✅     |
-|                            | View \ Edit personal information                                                 | ✅     |
-|                            | Multi-language settings                                                          | ✅     |
-|                            | Change password \ Forgot password                                                | ✅     |
-| **Friend Features**        | Find \ Apply \ Search \ Add \ Delete friends                                     | ✅     |
-|                            | Accept \ Reject friend requests                                                  | ✅     |
-|                            | Friend notes                                                                     | ✅     |
-|                            | Allow friend requests or not                                                     | ✅     |
-|                            | Friend list \ Friend data real-time syncing                                      | ✅     |
-| **Blocklist**              | Restrict messages                                                                | ✅     |
-|                            | Real-time syncing of blocklist                                                   | ✅     |
-|                            | Add \ Remove from blocklist                                                      | ✅     |
-| **Group Features**         | Create \ Dismiss groups                                                          | ✅     |
-|                            | Apply to join \ Invite to join \ Leave group \ Remove members                    | ✅     |
-|                            | Group name / Avatar changes / Group data updates (notifications, real-time sync) | ✅     |
-|                            | Invite members to group                                                          | ✅     |
-|                            | Transfer group ownership                                                         | ✅     |
-|                            | Group owner or admin approve join requests                                       | ✅     |
-|                            | Search group members                                                             | ✅     |
-| **Message Features**       | Offline messages                                                                 | ✅     |
-|                            | Roaming messages                                                                 | ✅     |
-|                            | Multi-end messages                                                               | ✅     |
-|                            | Message history                                                                  | ✅     |
-|                            | Message deletion                                                                 | ✅     |
-|                            | Clear messages                                                                   | ✅     |
-|                            | Copy messages                                                                    | ✅     |
-|                            | Typing indicator in single chat                                                  | ✅     |
-|                            | Do Not Disturb for new messages                                                  | ✅     |
-|                            | Clear chat history                                                               | ✅     |
-|                            | New members can view group chat history                                          | ✅     |
-|                            | New message reminders                                                            | ✅     |
-|                            | Text messages                                                                    | ✅     |
-|                            | Image messages                                                                   | ✅     |
-|                            | Video messages                                                                   | ✅     |
-|                            | Emoji messages                                                                   | ✅     |
-|                            | File messages                                                                    | ✅     |
-|                            | Voice messages                                                                   | ✅     |
-|                            | Contact card messages                                                            | ✅     |
-|                            | Location messages                                                                | ✅     |
-|                            | Custom messages                                                                  | ✅     |
-| **Conversation**           | Pin conversation                                                                 | ✅     |
-|                            | Mark conversation as read                                                        | ✅     |
-|                            | Mute conversation                                                                | ✅     |
-| **REST API**               | Authentication management                                                        | ✅     |
-|                            | User management                                                                  | ✅     |
-|                            | Relationship chain management                                                    | ✅     |
-|                            | Group management                                                                 | ✅     |
-|                            | Conversation management                                                          | ✅     |
-|                            | Message management                                                               | ✅     |
-| **Webhook**                | Group callbacks                                                                  | ✅     |
-|                            | Message callbacks                                                                | ✅     |
-|                            | Push callbacks                                                                   | ✅     |
-|                            | Relationship callbacks                                                           | ✅     |
-|                            | User callbacks                                                                   | ✅     |
-| **Capacity & Performance** | 10,000 friends                                                                   | ✅     |
-|                            | 100,000-member supergroup                                                        | ✅     |
-|                            | Second-level syncing                                                             | ✅     |
-|                            | Cluster deployment                                                               | ✅     |
-|                            | Multi-device kick-out strategy                                                   | ✅     |
-| **Online Status**          | No mutual kick-out across all platforms                                          | ✅     |
-|                            | Each platform can only log in with one device                                    | ✅     |
-|                            | PC, Mobile, Pad, Web, Mini Program each can log in with one device               | ✅     |
-|                            | PC not mutually kicked, only one device total for other platforms                | ✅     |
-| **Audio/Video Call**       | One-to-one audio and video calls                                                 | ✅     |
-| **File Storage**           | Supports private Minio deployment                                                | ✅     |
-|                            | Supports public cloud services COS, OSS, Kodo, S3                                | ✅     |
-| **Push**                   | Real-time online message push                                                    | ✅     |
-|                            | Offline message push, supports Getui, Firebase                                   | ✅     |
+| 功能模块           | 功能项                                                    | 状态 |
+| ------------------| --------------------------------------------------------- | ---- |
+| **账号功能**       | 手机号注册\邮箱注册\验证码登录                              | ✅   |
+|                   | 个人信息查看\修改                                          | ✅   |
+|                   | 多语言设置                                                 | ✅   |
+|                   | 修改密码\忘记密码                                          | ✅   |
+| **好友功能**       | 查找\申请\搜索\添加\删除好友                               | ✅   |
+|                   | 同意\拒绝好友申请                                          | ✅   |
+|                   | 好友备注                                                  | ✅   |
+|                   | 是否允许添加好友                                           | ✅   |
+|                   | 好友列表\好友资料实时同步                                   | ✅   |
+| **黑名单功能**     | 限制消息                                                  | ✅   |
+|                   | 黑名单列表实时同步                                         | ✅   |
+|                   | 添加\移出黑名单                                            | ✅   |
+| **群组功能**       | 创建\解散群组                                             | ✅   |
+|                   | 申请加群\邀请加群\退出群组\移除群成员                       | ✅   |
+|                   | 群名/群头像更改/群资料变更通知和实时同步                  | ✅   |
+|                   | 群成员邀请进群                                            | ✅   |
+|                   | 群主转让                                                  | ✅   |
+|                   | 群主、管理员同意进群申请                                  | ✅   |
+|                   | 搜索群成员                                                | ✅   |
+| **消息功能**       | 离线消息                                                  | ✅   |
+|                   | 漫游消息                                                  | ✅   |
+|                   | 多端消息                                                  | ✅   |
+|                   | 历史消息                                                  | ✅   |
+|                   | 消息删除                                                  | ✅   |
+|                   | 消息清空                                                  | ✅   |
+|                   | 消息复制                                                  | ✅   |
+|                   | 单聊正在输入                                              | ✅   |
+|                   | 新消息勿扰                                                | ✅   |
+|                   | 清空聊天记录                                              | ✅   |
+|                   | 新成员查看群聊历史消息                                    | ✅   |
+|                   | 新消息提示                                                | ✅   |
+|                   | 文本消息                                                  | ✅   |
+|                   | 图片消息                                                  | ✅   |
+|                   | 视频消息                                                  | ✅   |
+|                   | 表情消息                                                  | ✅   |
+|                   | 文件消息                                                  | ✅   |
+|                   | 语音消息                                                  | ✅   |
+|                   | 名片消息                                                  | ✅   |
+|                   | 地理位置消息                                              | ✅   |
+|                   | 自定义消息                                                | ✅   |
+| **会话功能**       | 置顶会话                                                  | ✅   |
+|                   | 会话已读                                                  | ✅   |
+|                   | 会话免打扰                                                | ✅   |
+| **REST API**      | 认证管理                                                  | ✅   |
+|                   | 用户管理                                                  | ✅   |
+|                   | 关系链管理                                                | ✅   |
+|                   | 群组管理                                                  | ✅   |
+|                   | 会话管理                                                  | ✅   |
+|                   | 消息管理                                                  | ✅   |
+| **Webhook**       | 群组回调                                                  | ✅   |
+|                   | 消息回调                                                  | ✅   |
+|                   | 推送回调                                                  | ✅   |
+|                   | 关系链回调                                                | ✅   |
+|                   | 用户回调                                                  | ✅   |
+| **容量和性能**     | 1 万好友                                                  | ✅   |
+|                   | 10 万人大群                                               | ✅   |
+|                   | 秒级同步                                                  | ✅   |
+|                   | 集群部署                                                  | ✅   |
+|                   | 互踢策略                                                  | ✅   |
+| **在线状态**       | 所有平台不互踢                                            | ✅   |
+|                   | 每个平台各只能登录一个设备                                | ✅   |
+|                   | PC 端、移动端、Pad 端、Web 端、小程序端各只能登录一个设备 | ✅   |
+|                   | PC 端不互踢，其他平台总计一个设备                         | ✅   |
+| **音视频通话**     | 一对一音视频通话                                          | ✅   |
+| **文件类对象存储** | 支持私有化部署 minio                                      | ✅   |
+|                   | 支持 COS、OSS、Kodo、S3 公有云                            | ✅   |
+| **推送**          | 消息在线实时推送                                          | ✅   |
+|                   | 消息离线推送，支持个推，Firebase                          | ✅   |
 
-For more advanced features, audio/video calls, or video conferences, please contact us at [contact@openim.io](mailto:contact@openim.io).
+更多高级功能、音视频通话、视频会议 请联系邮箱 [contact@openim.io](mailto:contact@openim.io)
 
-## Join Our Community :busts_in_silhouette:
+## 加入社区 👥:
 
-- 🚀 [Join our Slack community](https://join.slack.com/t/openimsdk/shared_invite/zt-22720d66b-o_FvKxMTGXtcnnnHiMqe9Q)
-- :eyes: [Join our WeChat group](https://openim-1253691595.cos.ap-nanjing.myqcloud.com/WechatIMG20.jpeg)
+- 🚀 [加入我们的 Slack 社区](https://join.slack.com/t/openimsdk/shared_invite/zt-22720d66b-o_FvKxMTGXtcnnnHiMqe9Q)
+- 👀 [加入我们的微信群](https://openim-1253691595.cos.ap-nanjing.myqcloud.com/WechatIMG20.jpeg)
 
-## FAQ
+## 常见问题
 
-1. **How to switch SDK about offline push in the project?**
+1. **Demo中如何使用个推及FCM来进行离线消息推送？**
 
-   A: Modified the variants to switch used SDK variant FCMDebug/Release used FCM SDK, others used Getui。
+   A: 修改项目的变体来使用不同的推送SDK。FCMDebug/Release变体接入了FCM的推送，其余变体则为个推。
 
-2. **Why did the binding file show error when switched variants?**
-   
-   A: After switching variants, re-run sync to make Android Studio re-index the automatically generated binding files.
+2. **为什么我在切换变体后DataBinding文件标红了？**
 
-3. **How to solve the error like "Unsupported Class flie" and "Class file has wrong version"?**
+   A: 切换变体后重新执行sync来使Android Studio来重新索引自动生成的binding文件。
 
-   A: Please make sure that the JRE version in the Android Studio project settings is 17.0.10.
+3. **如何解决类似"不支持的类文件"与"类文件具有错误的版本"等类似的问题？**
+
+   A: 请先确保Android Studio项目设置中的JRE版本为17.0.10.

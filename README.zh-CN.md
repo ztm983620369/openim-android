@@ -20,11 +20,6 @@ OpenIM 为开发者提供开源即时通讯 (IM) SDK，作为 Twilio 和 Sendbir
 
 本仓库基于 OpenIM SDK 的开源版本。您可以将此Demo用作 OpenIM SDK 的参考实现。引用了 `@openim/android-client-sdk` 和 `@openim/core-sdk`来创建原生 Android 应用程序。
 
-> 当前仓库已补齐 Android Studio/Gradle/JDK 兼容问题，属于“可直接编译运行”的版本。
-> 在 `Demo` 目录执行 `./gradlew :app:assembleDebug` 即可直接出包。
-> 默认服务端配置:
-> `119.45.226.7:10008` `119.45.226.7:10002` `119.45.226.7:10001`
-
 <p align="center">
    <img src="./docs/images/preview1.png" alt="Preview" width="40%"/>
    <span style="display: inline-block; width: 16px;"></span>

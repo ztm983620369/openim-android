@@ -20,11 +20,6 @@ OpenIM provides an open-source Instant Messaging (IM) SDK for developers, servin
 
 This repository is based on the open source version of OpenIM SDK. You can use this Demo as a reference implementation of OpenIM SDK. `@openim/android-client-sdk` and `@openim/core-sdk` are referenced to create native Android applications.
 
-> This repository has been patched into a directly runnable version.
-> Build it from the `Demo` directory with `./gradlew :app:assembleDebug`.
-> Default backend endpoints:
-> `119.45.226.7:10008` `119.45.226.7:10002` `119.45.226.7:10001`
-
 <p align="center">
    <img src="./docs/images/preview1.png" alt="Preview" width="40%"/>
    <span style="display: inline-block; width: 16px;"></span>

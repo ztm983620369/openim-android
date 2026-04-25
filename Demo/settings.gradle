@@ -52,3 +52,8 @@ include ':OUICalling'
 project(':OUICalling').projectDir = new File(settingsDir, '../OUIKit/OUICalling')
 include ':OUIApplet'
 project(':OUIApplet').projectDir = new File(settingsDir, '../OUIKit/OUIApplet')
+
+include ':AXEmojiView'
+project(':AXEmojiView').projectDir = new File(settingsDir, '../ThirdParty/AXEmojiView/AXEmojiView')
+include ':AXEmojiView-GoogleProvider'
+project(':AXEmojiView-GoogleProvider').projectDir = new File(settingsDir, '../ThirdParty/AXEmojiView/AXEmojiView-GoogleProvider')

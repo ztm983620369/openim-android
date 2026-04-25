@@ -5,6 +5,8 @@ import android.content.Intent;
 import androidx.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.aghajari.emojiview.AXEmojiManager;
+import com.aghajari.emojiview.googleprovider.AXGoogleEmojiProvider;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
@@ -46,6 +48,7 @@ public class DemoApplication extends BaseApp {
         initIM();
 
         EmojiManager.install(new GoogleEmojiProvider());
+        AXEmojiManager.install(this, new AXGoogleEmojiProvider(this));
         //音频播放
         SPlayer.init(this);
         SPlayer.instance().setCacheDirPath(Constants.AUDIO_DIR);

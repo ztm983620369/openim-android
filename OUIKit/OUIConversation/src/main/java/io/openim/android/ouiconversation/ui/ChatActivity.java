@@ -568,6 +568,9 @@ public class ChatActivity extends BaseActivity<ChatVM, ActivityChatBinding> impl
 
     @Override
     public void onBackPressed() {
+        if (bottomInputCote != null && bottomInputCote.onBackPressed()) {
+            return;
+        }
         super.onBackPressed();
         finish();
     }

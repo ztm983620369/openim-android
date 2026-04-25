@@ -32,6 +32,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
+import com.aghajari.emojiview.listener.SimplePopupAdapter;
+import com.aghajari.emojiview.view.AXEmojiPager;
+import com.aghajari.emojiview.view.AXEmojiView;
 import com.hjq.permissions.Permission;
 
 import java.util.ArrayList;
@@ -66,6 +69,7 @@ public class BottomInputCote {
     private Context context;
 
     InputExpandFragment inputExpandFragment;
+    private AXEmojiPager emojiPager;
     public LayoutInputCoteBinding view;
     //是否可发送内容
     private boolean isSend;
@@ -83,6 +87,7 @@ public class BottomInputCote {
             public void click(View v) {
                 if (!isSend) {
                     vm.mTypingState.postValue(false);
+                    dismissEmojiPanel();
                     clearFocus();
                     Common.hideKeyboard(BaseApp.inst(), v);
                     view.fragmentContainer.setVisibility(VISIBLE);
@@ -98,8 +103,25 @@ public class BottomInputCote {
             }
         });
 
+        view.chatEmoji.setOnClickListener(v -> {
+            if (vm != null) {
+                vm.mTypingState.postValue(false);
+            }
+            setExpandHide(true);
+            view.emojiLayout.show();
+        });
+
+        view.chatInput.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                setExpandHide(true);
+                if (view.emojiLayout.isShowing()) {
+                    view.emojiLayout.hideAndOpenKeyboard();
+                }
+            }
+            return false;
+        });
         view.chatInput.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) setExpandHide(false);
+            if (hasFocus) setExpandHide(true);
         });
         view.cancelReply.setOnClickListener(v -> vm.replyMessage.setValue(null));
         view.chatInput.addTextChangedListener(new TextWatcher() {
@@ -150,10 +172,38 @@ public class BottomInputCote {
     private void initView(LayoutInputCoteBinding view) {
         view.root.setIntercept(false);
         initFragment();
+        initEmojiPanel(view);
 
         view.chatInput.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         view.chatInput.setSingleLine(false);
         view.chatInput.setMaxLines(4);
+    }
+
+    private void initEmojiPanel(LayoutInputCoteBinding view) {
+        emojiPager = new AXEmojiPager(context);
+        AXEmojiView emojiView = new AXEmojiView(context);
+        emojiPager.addPage(emojiView, R.mipmap.ic_chat_face);
+        emojiPager.setEditText(view.chatInput);
+        emojiPager.show();
+
+        view.emojiLayout.initPopupView(emojiPager);
+        view.emojiLayout.setMinHeight(Common.dp2px(264));
+        view.emojiLayout.setPopupListener(new SimplePopupAdapter() {
+            @Override
+            public void onShow() {
+                view.chatEmoji.setImageResource(R.mipmap.ic_chat_keyboard);
+            }
+
+            @Override
+            public void onDismiss() {
+                view.chatEmoji.setImageResource(R.mipmap.ic_chat_face);
+            }
+
+            @Override
+            public void onKeyboardOpened(int height) {
+                view.chatEmoji.setImageResource(R.mipmap.ic_chat_face);
+            }
+        });
     }
 
     private void setSendButton(boolean isSend) {
@@ -177,6 +227,7 @@ public class BottomInputCote {
 
     public void clearFocus() {
         view.chatInput.clearFocus();
+        dismissEmojiPanel();
     }
 
     public void setChatVM(ChatVM vm) {
@@ -274,6 +325,24 @@ public class BottomInputCote {
     //设置扩展菜单隐藏
     public void setExpandHide(boolean isGone) {
         view.fragmentContainer.setVisibility(isGone ? View.GONE : View.INVISIBLE);
+    }
+
+    public boolean onBackPressed() {
+        if (view.emojiLayout.onBackPressed()) {
+            return true;
+        }
+        if (view.fragmentContainer.getVisibility() != View.GONE) {
+            setExpandHide(true);
+            return true;
+        }
+        return false;
+    }
+
+    private void dismissEmojiPanel() {
+        if (view.emojiLayout.isShowing()) {
+            view.emojiLayout.dismiss();
+        }
+        view.chatEmoji.setImageResource(R.mipmap.ic_chat_face);
     }
 
     private int mCurrentTabIndex;

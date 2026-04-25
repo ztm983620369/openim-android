@@ -69,6 +69,8 @@ dependencies {
 
     implementation 'com.alibaba:arouter-api:1.5.2'
     annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
+    api project(':AXEmojiView')
+    api project(':AXEmojiView-GoogleProvider')
     api project(':OUICore')
 
 }

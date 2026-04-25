@@ -12,7 +12,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
@@ -103,6 +103,15 @@
 
 
             <ImageView
+                android:id="@+id/chatEmoji"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:clickable="true"
+                android:padding="8dp"
+                android:src="@mipmap/ic_chat_face" />
+
+            <ImageView
                 android:id="@+id/chatMoreOrSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,6 +122,12 @@
                 android:src="@mipmap/ic_chat_add" />
 
         </LinearLayout>
+
+        <com.aghajari.emojiview.view.AXEmojiPopupLayout
+            android:id="@+id/emojiLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <RelativeLayout
             android:id="@+id/highTips"
             android:layout_width="match_parent"
@@ -146,4 +161,3 @@
     </io.openim.android.ouicore.widget.InterceptLinearLayout>
 
 </layout>
-

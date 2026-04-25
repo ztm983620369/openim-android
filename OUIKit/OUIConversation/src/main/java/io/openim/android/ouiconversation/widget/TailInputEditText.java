@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import com.vanniktech.emoji.EmojiEditText;
+import com.aghajari.emojiview.view.AXEmojiEditText;
 
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +26,7 @@ import io.openim.android.ouicore.entity.MsgExpand;
 import io.openim.android.ouicore.ex.AtUser;
 import io.openim.android.sdk.models.Message;
 
-public class TailInputEditText extends EmojiEditText {
+public class TailInputEditText extends AXEmojiEditText {
     private ChatVM chatVM;
 
     public TailInputEditText(@NonNull Context context) {
